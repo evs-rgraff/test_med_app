@@ -58,6 +58,10 @@ nav a:hover {
 }
 
 .nav-btn {
+        display: flex;
+    align-items: center;    /* vertical center */
+    justify-content: center; /* horizontal center (optional) */
+    text-align: center;  
     border: 1px solid #005eb8;
     min-width: 115px;
     height: 40px;
