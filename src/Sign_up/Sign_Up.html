@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./sign_up.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-content">
+            <div class="form-title">
+                <h1>Sign Up</h1>
+                <div class="form-description">Already a Member? <a href="#">Login</a></div>
+            </div>
+            <form id="registrationForm">
+                <div class="input-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Patient">Patient</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="button-group">
+                    <button class="button-primary" type="submit">Submit</button>
+                    <button class="button-secondary" type="button"
+                        onclick="document.getElementById('registrationForm').reset();">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
