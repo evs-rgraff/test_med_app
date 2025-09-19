@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from './Components/navbar/navbar';
 import LandingPage from './Components/Landing_Page/LandingPage';
+import SignUp from './Components/Sign_Up/Sign_Up';
 
 function App() {
   return (
