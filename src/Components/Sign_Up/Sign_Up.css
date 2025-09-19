@@ -1,90 +1,121 @@
+/* Global font */
 * {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
+    box-sizing: border-box;
 }
 
-.form-container {
+/* Container for the whole form */
+.container {
     display: flex;
-    flex-direction: column;
-    background-color: #f0f0f0;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Grid for form layout */
+.signup-grid {
     width: 100%;
     max-width: 400px;
-    /* height: 600px; */
-    margin: 0 auto;
-    padding: 0 30px;
+    background-color: #f0f0f0;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.form-content {
-    margin: 20px 0;
-}
-
-h1,
-.form-description {
-    text-align: center;
-}
-
-h1 {
-    font-size: 24px;
-    color: #005EB8;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-#registrationForm {
+/* Form styling */
+.signup-form form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* width: 100%; */
-    margin: 0 auto;
 }
 
-.input-group {
+/* Form group styling */
+.form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    min-width: 325px;
 }
 
-.input-group label {
+/* Labels */
+.form-group label {
     color: #005EB8;
     font-weight: 600;
     margin-bottom: 5px;
 }
 
-.input-group input,
-.input-group select {
-    height: 30px;
+/* Input fields */
+.form-group input {
+    height: 35px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
+/* Error messages */
+.err {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Buttons container */
 .button-group {
-    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 10px; /* space between buttons */
     margin-top: 10px;
 }
 
+/* Buttons styling */
 .button-primary,
 .button-secondary {
     display: flex;
     align-items: center;    /* vertical center */
-    justify-content: center; /* horizontal center (optional) */
-    text-align: center;  
+    justify-content: center; /* horizontal center */
     width: 100%;
-    height: 35px;
+    height: 40px;
     font-size: 16px;
     font-weight: 600;
     color: #fff;
     border-radius: 5px;
-    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 }
 
+/* Primary button color */
 .button-primary {
     background-color: #005EB8;
-    border: 1px solid #005EB8;
 }
 
+.button-primary:hover {
+    background-color: #004080;
+}
+
+/* Secondary button color */
 .button-secondary {
     background-color: #C80000;
-    border: 1px solid #C80000;
+}
+
+.button-secondary:hover {
+    background-color: #900000;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+    .signup-grid {
+        padding: 20px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        height: 35px;
+    }
+
+    .button-primary,
+    .button-secondary {
+        font-size: 14px;
+        height: 35px;
+    }
 }
