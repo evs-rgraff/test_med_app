@@ -1,113 +1,109 @@
-import React, { useState } from "react";
-import "./Login.css";
+// Following code has been commented with appropriate comments for your reference.
+import React, { useState, useEffect } from 'react';
+// Apply CSS according to your design theme or the CSS provided in week 2 lab 2
 
-function Login() {
-  const [email, setEmail] = useState("");
+import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
+
+const Login = () => {
+
+  // State variables for email and password
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [email, setEmail] = useState('');
 
-  const validateEmail = (value) => {
-    const invalidChars = /[^a-zA-Z0-9@._-]/;
-    if (!value) return "Email is required";
-    if (invalidChars.test(value)) return "Email contains invalid characters";
-    if (!/\S+@\S+\.\S+/.test(value)) return "Email format is invalid";
-    return "";
-  };
+  // Get navigation function from react-router-dom
+  const navigate = useNavigate();
 
-  const validatePassword = (value) => {
-    const invalidChars = /[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-    if (!value) return "Password is required";
-    if (invalidChars.test(value)) return "Password contains invalid characters";
-    if (value.length < 6) return "Password must be at least 6 characters";
-    return "";
-  };
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-  };
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
-
-    if (emailError || passwordError) {
-      setErrors({ email: emailError, password: passwordError });
-      return;
+  // Check if user is already authenticated, then redirect to home page
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
     }
+  }, []);
 
-    // Form is valid, do login logic here
-    console.log("Form submitted:", { email, password });
-  };
+  // Function to handle login form submission
+  const login = async (e) => {
+    e.preventDefault();
+    // Send a POST request to the login API endpoint
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
 
-  const handleClear = () => {
-    setEmail("");
-    setPassword("");
-    setErrors({});
+    // Parse the response JSON
+    const json = await res.json();
+    if (json.authtoken) {
+      // If authentication token is received, store it in session storage
+      sessionStorage.setItem('auth-token', json.authtoken);
+      sessionStorage.setItem('email', email);
+
+      // Redirect to home page and reload the window
+      navigate('/');
+      window.location.reload();
+    } else {
+      // Handle errors if authentication fails
+      if (json.errors) {
+        for (const error of json.errors) {
+          alert(error.msg);
+        }
+      } else {
+        alert(json.error);
+      }
+    }
   };
 
   return (
-    <div className="form-container">
-      <div className="form-content">
-        <div className="form-title">
-          <h1>Login</h1>
-          <div className="form-description">
-            New Member? <a href="/signup">Sign Up Here</a>
+    <div>
+      <div className="container">
+        <div className="login-grid">
+          <div className="login-text">
+            <h2>Login</h2>
+          </div>
+          <div className="login-text">
+            Are you a new member? 
+            <span>
+              <Link to="/signup" style={{ color: '#2190FF' }}>
+                Sign Up Here
+              </Link>
+            </span>
+          </div>
+          <br />
+          <div className="login-form">
+            <form onSubmit={login}>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                {/* Input field for email */}
+                <input 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  type="email" 
+                  name="email" 
+                  id="email" 
+                  className="form-control" 
+                  placeholder="Enter your email" 
+                  aria-describedby="helpId" 
+                />
+              </div>
+              {/* Input field for password */}
+              // write logic code for password input box
+              <div className="btn-group">
+                {/* Login button */}
+                <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">
+                  Login
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-
-        <form id="loginForm" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            {errors.password && (
-              <span className="error">{errors.password}</span>
-            )}
-          </div>
-
-          <div className="button-group">
-            <button className="button-primary" type="submit">
-              Submit
-            </button>
-            <button
-              className="button-secondary"
-              type="button"
-              onClick={handleClear}
-            >
-              Clear
-            </button>
-          </div>
-        </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default Login;
