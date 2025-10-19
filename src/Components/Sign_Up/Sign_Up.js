@@ -29,6 +29,8 @@ const Sign_Up = () => {
                 sessionStorage.setItem("phone", phone);
                 sessionStorage.setItem("email", email);
 
+                onLogin({ name, email });
+
                 navigate("/");
                 window.location.reload();
             } else {
