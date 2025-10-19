@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./Components/Navbar/Navbar";
 import LandingPage from "./Components/Landing_Page/LandingPage";
@@ -31,14 +31,16 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navbar auth={auth} onLogout={handleLogout} />
+      {/* BrowserRouter should be in index.js — keep App focused on routes */}
+      <Navbar auth={auth} onLogout={handleLogout} />
+      <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUp onLogin={handleLogin} />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
-      </BrowserRouter>
+      </main>
     </div>
   );
 }
