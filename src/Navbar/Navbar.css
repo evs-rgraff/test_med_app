@@ -1,0 +1,201 @@
+/* Base styles */
+* {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+/* Links */
+a {
+    color: #005eb8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Nav container - fixed at top and centered */
+nav {
+    padding: 0.5rem 1rem;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* keep above page content */
+}
+
+/* Logo lockup */
+.header-logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo-lockup img {
+    height: 90px;
+    display: block;
+}
+
+.header-logo-label {
+    font-size: 24px;
+    color: #005eb8;
+    font-weight: 500;
+}
+
+/* Nav links - desktop layout */
+.nav_links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+/* each link container */
+.nav_links .link,
+.nav_links .navlink {
+    padding: 0 1.5rem;
+}
+
+/* ensure anchors and buttons inside links behave */
+.nav_links a {
+    color: inherit;
+    display: inline-block;
+}
+
+/* buttons inside nav */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #005eb8;
+    min-width: 115px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: #005eb8;
+}
+
+.nav-btn:hover {
+    background-color: #005eb8;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Hamburger toggle (hidden on desktop) */
+.nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #005eb8;
+    background: none;
+    border: none;
+    padding: 6px;
+    margin-left: 12px;
+}
+
+/* Make the nav links visually consistent on desktop */
+@media screen and (min-width: 768px) {
+    .nav_links li a,
+    .nav_links li button {
+        padding: 8px 0;
+    }
+}
+
+/* ---------------------------
+   Mobile styles (<=767px)
+   --------------------------- */
+@media screen and (max-width: 767px) {
+    nav {
+        /* stack visually, but keep logo + toggle on one line */
+        flex-direction: row;
+        padding: 0.5rem 0.75rem;
+    }
+
+    /* show the hamburger */
+    .nav-toggle {
+        display: block;
+        margin-left: auto; /* push it to the right of the logo */
+        z-index: 1100;     /* above the dropdown */
+    }
+
+    /* nav links become a collapsible panel */
+    .nav_links {
+        /* keep display:flex so layout uses flexbox, but collapse with max-height */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        position: absolute;
+        top: 100%;        /* immediately below the nav bar */
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        overflow: hidden;
+        max-height: 0;                 /* collapsed by default */
+        transition: max-height 300ms ease, box-shadow 300ms ease, padding 300ms ease;
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        z-index: 1050;
+    }
+
+    /* when active, expand the panel */
+    .nav_links.active {
+        padding: 0.75rem 0;
+        max-height: 420px; /* large enough to show links; adjust if you have many links */
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    /* each link becomes full width and stacked */
+    .nav_links li {
+        width: 100%;
+        padding: 8px 16px;
+        text-align: right; /* right aligned to match earlier layout; change to left if desired */
+        border-top: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .nav_links li:first-child {
+        border-top: 0;
+    }
+
+    .nav_links li a {
+        display: block;
+        width: 100%;
+        color: #333;
+        padding: 6px 0;
+    }
+
+    .nav_links li button.nav-btn {
+        margin: 0;
+        width: calc(100% - 32px);
+        align-self: center;
+    }
+}
+
+/* small polish for the hamburger icon hit area */
+.nav-toggle:focus {
+    outline: 2px solid rgba(0,94,184,0.15);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
