@@ -1,85 +1,73 @@
 import React, { useEffect, useState } from 'react';
 import './InstantConsultation.css';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import FindDoctorSearchIC from './FindDoctorSearchIC/FindDoctorSearchIC';
 import DoctorCardIC from './DoctorCardIC/DoctorCardIC';
 
 const InstantConsultation = () => {
-    const [searchParams] = useSearchParams();
-    const [doctors, setDoctors] = useState([]);
-    const [filteredDoctors, setFilteredDoctors] = useState([]);
-    const [isSearched, setIsSearched] = useState(false);
-    
-    const getDoctorsDetails = () => {
-        fetch('https://api.npoint.io/9a5543d36f1460da2f63')
-        .then(res => res.json())
-        .then(data => {
-            if (searchParams.get('speciality')) {
-                // window.reload()
-                const filtered = data.filter(doctor => doctor.speciality.toLowerCase() === searchParams.get('speciality').toLowerCase());
+  const [doctors, setDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [isSearched, setIsSearched] = useState(false);
 
-                setFilteredDoctors(filtered);
-                
-                setIsSearched(true);
-                window.reload()
-            } else {
-                setFilteredDoctors([]);
-                setIsSearched(false);
-            }
-            setDoctors(data);
-        })
-        .catch(err => console.log(err));
+  // Fetch doctors from local JSON or API
+  const getDoctorsDetails = async () => {
+    try {
+      const res = await fetch('/data/doctors.json'); // place doctors.json in public/data/
+      const data = await res.json();
+      setDoctors(data);
+
+      // TEMP: show all doctors immediately (no filtering required to see cards)
+      setFilteredDoctors(data);
+      setIsSearched(true);
+    } catch (err) {
+      console.error('Failed to fetch doctors:', err);
+      setDoctors([]);
+      setFilteredDoctors([]);
+      setIsSearched(false);
     }
-    const handleSearch = (searchText) => {
+  };
 
-        if (searchText === '') {
-            setFilteredDoctors([]);
-            setIsSearched(false);
-            } else {
-                
-            const filtered = doctors.filter(
-                (doctor) =>
-                // 
-                doctor.speciality.toLowerCase().includes(searchText.toLowerCase())
-                
-            );
-                
-            setFilteredDoctors(filtered);
-            setIsSearched(true);
-            window.location.reload()
-        }
-    };
-    const navigate = useNavigate();
-    useEffect(() => {
-        getDoctorsDetails();
-        // const authtoken = sessionStorage.getItem("auth-token");
-        // if (!authtoken) {
-        //     navigate("/login");
-        // }
-    }, [searchParams])
+  useEffect(() => {
+    getDoctorsDetails();
+  }, []);
 
-    return (
-        <center>
-            <div  className="searchpage-container">
-            <FindDoctorSearchIC onSearch={handleSearch} />
-            <div className="search-results-container">
-            {isSearched ? (
-                <center>
-                    <h2>{filteredDoctors.length} doctors are available {searchParams.get('location')}</h2>
-                    <h3>Book appointments with minimum wait-time & verified doctor details</h3>
-                    {filteredDoctors.length > 0 ? (
-                    filteredDoctors.map(doctor => <DoctorCardIC className="doctorcard" {...doctor} key={doctor.name} />)
-                    ) : (
-                    <p>No doctors found.</p>
-                    )}
-                </center>
-                ) : (
-                ''
-                )}
-            </div>
-        </div>
-        </center>
-    )
-}
+  const handleSearch = (searchText) => {
+    // If search box is empty, show all doctors
+    if (!searchText) {
+      setFilteredDoctors(doctors);
+      setIsSearched(true);
+      return;
+    }
 
-export default InstantConsultation
+    const filtered = doctors.filter((doctor) =>
+      doctor.speciality.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    setFilteredDoctors(filtered);
+    setIsSearched(true);
+  };
+
+  return (
+    <div className="searchpage-container">
+      <FindDoctorSearchIC onSearch={handleSearch} />
+
+      <div className="search-results-container">
+        {isSearched && (
+          <>
+            <h2>
+              {filteredDoctors.length} doctor{filteredDoctors.length !== 1 ? 's' : ''} found
+            </h2>
+            {filteredDoctors.length > 0 ? (
+              filteredDoctors.map((doctor) => (
+                <DoctorCardIC key={doctor.name} {...doctor} />
+              ))
+            ) : (
+              <p>No doctors found.</p>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default InstantConsultation;

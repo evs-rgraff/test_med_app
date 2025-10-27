@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Dr. Victor Von Doom",
+    "speciality": "Cardiologist",
+    "experience": 12,
+    "ratings": 4.8,
+    "profilePic": ""
+  },
+  {
+    "name": "Dr. Andre Young",
+    "speciality": "Dermatologist",
+    "experience": 8,
+    "ratings": 4.5,
+    "profilePic": ""
+  },
+  {
+    "name": "Dr. Stephen Strange",
+    "speciality": "Neurologist",
+    "experience": 15,
+    "ratings": 4.9,
+    "profilePic": ""
+  }
+]
