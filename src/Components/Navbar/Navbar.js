@@ -13,6 +13,9 @@ const Navbar = () => {
     window.location.reload();
   };
 
+  const email = sessionStorage.getItem("email") || "";
+  const username = email ? email.split("@")[0] : "";
+
   return (
     <nav className="navbar">
       <div className="header-logo">
@@ -35,9 +38,14 @@ const Navbar = () => {
         <li className="link"><Link to="/Appointments">Appointments</Link></li>
 
         {isLoggedIn ? (
-          <li className="link">
-            <button className="nav-btn" onClick={handleLogout}>Logout</button>
-          </li>
+          <>
+            <li className="link username-display">
+              {username && <span>Hello, {username}</span>}
+            </li>
+            <li className="link">
+              <button className="nav-btn" onClick={handleLogout}>Logout</button>
+            </li>
+          </>
         ) : (
           <>
             <li className="link">
