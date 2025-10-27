@@ -1,20 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from './Components/Navbar/Navbar';
-import Landing_page from './Components/Landing_Page/Landing_page';
+import Landing_Page from './Components/Landing_Page/Landing_Page';
+import Sign_Up from './Components/Sign_Up/Sign_Up';
+import Login from './Components/Login/Login';
+// import Appointments from './Components/Appointments/Appointments';
 
 // Temporary placeholder components (so your app compiles)
-function Appointments() {
-  return <div style={{ padding: 20 }}>Appointments Page</div>;
-}
-
-function SignUp() {
-  return <div style={{ padding: 20 }}>Sign Up Page</div>;
-}
-
-function Login() {
-  return <div style={{ padding: 20 }}>Login Page</div>;
-}
+// function Appointments() {
+//   return <div style={{ padding: 20 }}>Appointments Page</div>;
+// }
 
 function App() {
   return (
@@ -22,10 +17,10 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Landing_page />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Landing_Page />} />
+          {/* <Route path="/Appointments" element={<Appointments />} /> */}
+          <Route path="/Sign_Up" element={<Sign_Up />} />
+          <Route path="/Login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

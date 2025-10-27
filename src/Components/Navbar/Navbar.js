@@ -1,50 +1,53 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "./images/nav-logo.svg";
 
-export default function Navbar() {
-  // handleClick is defined BEFORE the JSX return (per your instruction)
-  const [menuOpen, setMenuOpen] = useState(false);
+const Navbar = () => {
+  const [menuActive, setMenuActive] = useState(false);
 
-  function handleClick() {
-    setMenuOpen((prev) => !prev);
-  }
+  const handleClick = () => {
+    setMenuActive(!menuActive);
+  };
 
   return (
-    <div>
-      <nav className="navbar">
-        <div className="header-logo">
-          <a href="/">
-            <div className="header-logo-lockup">
-              <div>
-                <img src={logo} alt="RMG Health Advocates Group" />
-              </div>
-              <div className="header-logo-label">RMG Health Advocates Group</div>
+    <nav className="navbar">
+      <div className="header-logo">
+        <Link to="/">
+          <div className="header-logo-lockup">
+            <div>
+            <img src={logo} alt="RMG Health Advocates Group" /> 
             </div>
-          </a>
-        </div>
+            <div className="header-logo-label">RMG Health Advocates Group</div>
+          </div>
+        </Link>
+      </div>
 
-        <div
-          className="nav-toggle"
-          id="navToggle"
-          onClick={handleClick}
-          role="button"
-          aria-label="Toggle navigation"
-        >
-          <i className={menuOpen ? "fa fa-times" : "fa fa-bars"} aria-hidden="true" />
-        </div>
+      {/* Hamburger button */}
+      <div className="nav-toggle" onClick={handleClick}>
+        <i className={`fa-solid ${menuActive ? "fa-times" : "fa-bars"}`}></i>
+      </div>
 
-        <ul className={`nav_links ${menuOpen ? "active" : ""}`} id="navLinks">
-          <li className="navlink"><a href="/">Home</a></li>
-          <li className="link"><a href="#">Appointments</a></li>
-          <li className="link">
-            <a href="../Sign_Up/Sign_Up.html"><button className="nav-btn">Sign Up</button></a>
-          </li>
-          <li className="link">
-            <a href="../Login/Login.html"><button className="nav-btn">Log In</button></a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+      <ul className={`nav_links ${menuActive ? "active" : ""}`}>
+        <li className="navlink">
+          <Link to="/" onClick={() => setMenuActive(false)}>Home</Link>
+        </li>
+        <li className="link">
+          <Link to="/appointments" onClick={() => setMenuActive(false)}>Appointments</Link>
+        </li>
+        <li className="link">
+          <Link to="/Sign_Up" onClick={() => setMenuActive(false)}>
+            <button className="nav-btn">Sign Up</button>
+          </Link>
+        </li>
+        <li className="link">
+          <Link to="/Login" onClick={() => setMenuActive(false)}>
+            <button className="nav-btn">Log In</button>
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
-}
+};
+
+export default Navbar;
