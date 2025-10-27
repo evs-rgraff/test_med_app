@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from './Components/Navbar/Navbar';
+
+// Temporary placeholder components (so your app compiles)
+function Home() {
+  return <div style={{ padding: 20 }}>Home Page</div>;
+}
+
+function Appointments() {
+  return <div style={{ padding: 20 }}>Appointments Page</div>;
+}
+
+function SignUp() {
+  return <div style={{ padding: 20 }}>Sign Up Page</div>;
+}
+
+function Login() {
+  return <div style={{ padding: 20 }}>Login Page</div>;
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
