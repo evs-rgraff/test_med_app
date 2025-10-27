@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "./images/nav-logo.svg";
 
 const Navbar = () => {
-  const [menuActive, setMenuActive] = useState(false);
+  const navigate = useNavigate();
+  const isLoggedIn = !!sessionStorage.getItem("auth-token");
 
-  const handleClick = () => {
-    setMenuActive(!menuActive);
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -16,35 +19,35 @@ const Navbar = () => {
         <Link to="/">
           <div className="header-logo-lockup">
             <div>
-            <img src={logo} alt="RMG Health Advocates Group" /> 
+              <img src={logo} alt="RMG Health Advocates Group" />
             </div>
             <div className="header-logo-label">RMG Health Advocates Group</div>
           </div>
         </Link>
       </div>
 
-      {/* Hamburger button */}
-      <div className="nav-toggle" onClick={handleClick}>
-        <i className={`fa-solid ${menuActive ? "fa-times" : "fa-bars"}`}></i>
+      <div className="nav-toggle" id="navToggle">
+        <i className="fa-solid fa-bars"></i>
       </div>
 
-      <ul className={`nav_links ${menuActive ? "active" : ""}`}>
-        <li className="navlink">
-          <Link to="/" onClick={() => setMenuActive(false)}>Home</Link>
-        </li>
-        <li className="link">
-          <Link to="/appointments" onClick={() => setMenuActive(false)}>Appointments</Link>
-        </li>
-        <li className="link">
-          <Link to="/Sign_Up" onClick={() => setMenuActive(false)}>
-            <button className="nav-btn">Sign Up</button>
-          </Link>
-        </li>
-        <li className="link">
-          <Link to="/Login" onClick={() => setMenuActive(false)}>
-            <button className="nav-btn">Log In</button>
-          </Link>
-        </li>
+      <ul className="nav_links" id="navLinks">
+        <li className="navlink"><Link to="/">Home</Link></li>
+        <li className="link"><Link to="/Appointments">Appointments</Link></li>
+
+        {isLoggedIn ? (
+          <li className="link">
+            <button className="nav-btn" onClick={handleLogout}>Logout</button>
+          </li>
+        ) : (
+          <>
+            <li className="link">
+              <Link to="/Sign_Up"><button className="nav-btn">Sign Up</button></Link>
+            </li>
+            <li className="link">
+              <Link to="/Login"><button className="nav-btn">Log In</button></Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
